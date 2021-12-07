@@ -1,31 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./styles.css";
-import imagesArr from './imageData';
-// import Thumbnail from './Thumbnail';
-// IMPORT imageData.js AND STORE IT IN A VARIABLE CALLED imagesArr
+
+import imagesArr from "./imageData.js";
+import BigImage from "./BigImage";
+import SmallImage from "./SmallImage";
 
 export default function App() {
-  // USE useState TO CREATE  [bigImage, setBigImage]
-  // AND SET IT TO THE IMAGE URL OF THE FIRST ELEMENT IN THE ARRAY
-const [bigImage, setBigImage] = useState(imagesArr[0].img)
+  const [bigImage, setBigImage] = useState(imagesArr[0].img);
+  const [smallImage, setSmallImage] = useState(0);
 
-
-
-  // CREATE A HANDLE CLICK FUNCTION THAT ACCEPTS AN IMAGE URL
-  // THE FUNCTION SHOULD CALL setBigImage AND PASS IT THE URL
-  const handleClick = (img) => {
-    setBigImage(img);
+  const handleClick = (imgUrl, key) => {
+    setBigImage(imgUrl);
+    setSmallImage(key);
   };
- 
 
-  const images = imagesArr.map((ele, index) => {
+  const images = imagesArr.map((element, index) => {
     return (
-      <img 
-      src={ele.img}
-      alt={ele.city}
-      key={index}
-      className="thumb"
-      onClick={()=> handleClick(ele.img)}
+      <SmallImage
+        src={element.img}
+        image={smallImage}
+        alt={element.city}
+        key={index}
+        idx={index}
+        handleClick={handleClick}
       />
     );
   });
@@ -33,14 +30,13 @@ const [bigImage, setBigImage] = useState(imagesArr[0].img)
   return (
     <div className="App">
       <h1>Cities Of The World</h1>
-      
       <div id="wrapper">
-        <div id="thumbnails"> {images}</div>
-        
-        
+        <div id="thumbnails">
+          {/* RENDER THE IMAGES ARRAY  */}
+          {images}
+        </div>
         {/* THE SRC IMAGE URL SHOULD BE SET TO THE VALUE THAT IS STORED IN bigImage */}
-        { <img src={bigImage} id="bigimage" alt='bigImaage'/> }
-
+        <BigImage image={bigImage} />
       </div>
     </div>
   );
